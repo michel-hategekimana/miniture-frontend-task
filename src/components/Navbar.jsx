@@ -87,7 +87,10 @@ export default function Navbar({ onMenuOpenChange }) {
 
       
       <div className="flex items-center justify-between">
-        <h1 className="text-[30px] font-medium leading-none tracking-normal text-black">
+        <h1
+          className="text-[32px] font-normal leading-none tracking-normal text-black"
+          style={{ fontFamily: "'Arial Rounded MT Bold', 'Poppins', 'Trebuchet MS', sans-serif" }}
+        >
           miniture
         </h1>
 

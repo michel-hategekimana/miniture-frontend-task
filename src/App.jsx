@@ -1,34 +1,21 @@
-import { useState } from "react"
-import Navbar from "./components/Navbar"
-import Hero from "./components/Hero"
-import RoomSections from "./components/RoomSections"
-import ProductShowcase from "./components/ProductShowcase"
-import LivingRoomEvent from "./components/LivingRoomEvent"
-import FurnitureFeature from "./components/FurnitureFeature"
-import ShopHighlights from "./components/ShopHighlights"
-import LifestyleSections from "./components/LifestyleSections"
-
+import { Route, Routes } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import Home from "./pages/Home";
+import Catalog from "./pages/Catalog";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
   return (
-    <div>
-      <Navbar onMenuOpenChange={setIsMenuOpen} />
-      <div
-        className={`pointer-events-none fixed inset-0 z-[45] bg-black/35 transition-opacity duration-200 ${
-          isMenuOpen ? "opacity-100" : "opacity-0"
-        }`}
-      />
-      <Hero />
-      <RoomSections />
-      <ProductShowcase />
-      <LivingRoomEvent />
-      <FurnitureFeature />
-      <ShopHighlights />
-      <LifestyleSections />
-    </div>
-  )
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;
