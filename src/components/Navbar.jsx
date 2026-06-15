@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, ChevronDown, Menu, Search, ShoppingBag, Star, User, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   {
@@ -19,13 +20,17 @@ const navLinks = [
   },
   {
     title: "Pages",
-    dropdown: ["About Us", "FAQs", "Contact Us"],
+    dropdown: [
+      { title: "About Us", href: "/about" },
+      { title: "FAQs", href: "/faqs" },
+      { title: "Contact Us", href: "/contact" },
+    ],
   },
   {
-    title: "Blog",
+    title: "Blog",href: "/blog"
   },
   {
-    title: "Contact",
+    title: "Contact",href: "/contact"
   },
 ];
 
@@ -90,12 +95,12 @@ export default function Navbar({ onMenuOpenChange }) {
 
       
       <div className="relative hidden items-center justify-between lg:flex">
-        <h1
+        <Link to="/"
           className="text-[32px] font-normal leading-none tracking-normal text-black"
           style={{ fontFamily: "'Arial Rounded MT Bold', 'Poppins', 'Trebuchet MS', sans-serif" }}
         >
           miniture
-        </h1>
+        </Link>
 
         <ul className="hidden items-center gap-12 lg:flex">
           {navLinks.map((item, index) => {
@@ -108,27 +113,34 @@ export default function Navbar({ onMenuOpenChange }) {
                 className="relative"
                 onMouseEnter={() => setOpenDropdown(index)}
               >
-                <button
-                  type="button"
-                  className={`flex items-center gap-1 text-[16px] font-semibold text-black transition ${
-                    isSimpleLink ? "hover:text-[#ffa62b]" : "hover:text-black"
-                  }`}
-                >
-                  {item.title}
-                  {hasDropdown && <ChevronDown size={16} strokeWidth={2.4} />}
-                </button>
+                {isSimpleLink ? (
+                  <Link
+                    to={item.href ?? "#"}
+                    className="flex items-center gap-1 text-[16px] font-semibold text-black transition hover:text-[#ffa62b]"
+                  >
+                    {item.title}
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    className="flex items-center gap-1 text-[16px] font-semibold text-black transition hover:text-black"
+                  >
+                    {item.title}
+                    <ChevronDown size={16} strokeWidth={2.4} />
+                  </button>
+                )}
 
                 {item.dropdown?.length > 0 && openDropdown === index && (
                   <div className="absolute left-1/2 top-10 w-[325px] -translate-x-1/2 rounded-b-[18px] rounded-t-none bg-white px-10 py-8">
                     <div className="flex flex-col gap-5">
                       {item.dropdown.map((link) => (
-                        <a
-                          key={link}
-                          href="#"
+                        <Link
+                          key={link.title ?? link}
+                          to={link.href ?? "#"}
                           className="text-[16px] font-semibold text-black transition hover:text-[#ffa62b]"
                         >
-                          {link}
-                        </a>
+                          {link.title ?? link}
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -268,41 +280,44 @@ export default function Navbar({ onMenuOpenChange }) {
 
               return (
                 <div key={item.title} className="border-b border-[#eeeeee] last:border-b-0">
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between py-4 text-left text-[17px] font-semibold text-black"
-                    onClick={() => {
-                      if (!hasDropdown) {
-                        setIsMobileMenuOpen(false);
-                        return;
-                      }
-
-                      setMobileDropdown(isExpanded ? null : index);
-                    }}
-                  >
-                    {item.title}
-                    {hasDropdown && (
+                  {hasDropdown ? (
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between py-4 text-left text-[17px] font-semibold text-black"
+                      onClick={() => {
+                        setMobileDropdown(isExpanded ? null : index);
+                      }}
+                    >
+                      {item.title}
                       <ChevronDown
                         size={18}
                         strokeWidth={2.4}
                         className={`transition-transform ${isExpanded ? "rotate-180" : ""}`}
                       />
-                    )}
-                  </button>
+                    </button>
+                  ) : (
+                    <Link
+                      to={item.href ?? "#"}
+                      className="flex w-full items-center justify-between py-4 text-[17px] font-semibold text-black"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.title}
+                    </Link>
+                  )}
 
                   {hasDropdown && isExpanded && (
                     <div className="pb-4">
                       {item.dropdown?.length ? (
                         <div className="flex flex-col gap-3">
                           {item.dropdown.map((link) => (
-                            <a
-                              key={link}
-                              href="#"
+                            <Link
+                              key={link.title ?? link}
+                              to={link.href ?? "#"}
                               className="text-[15px] font-medium text-[#686868] transition hover:text-[#ffa62b]"
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
-                              {link}
-                            </a>
+                              {link.title ?? link}
+                            </Link>
                           ))}
                         </div>
                       ) : (

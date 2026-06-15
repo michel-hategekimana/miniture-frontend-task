@@ -6,6 +6,8 @@ import FurnitureFeature from "../components/FurnitureFeature";
 import ShopHighlights from "../components/ShopHighlights";
 import LifestyleSections from "../components/LifestyleSections";
 
+
+
 export default function Home() {
   return (
     <>
@@ -16,6 +18,7 @@ export default function Home() {
       <FurnitureFeature />
       <ShopHighlights />
       <LifestyleSections />
+      
     </>
   );
 }
